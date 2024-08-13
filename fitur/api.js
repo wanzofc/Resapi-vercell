@@ -214,12 +214,13 @@ router.get('/ytdl', async (req, res) => {
   const url = req.query.url;
   if (!url) return res.status(400).json({ error: "Masukkan url" });
   try {
-    const info = await ytdl.getInfo(url);
+    const response = await axios.get(`https://nue-api.vercel.app/api/yt-search?query=${url}`);
+    const info = response.data[0];
 
     const dlMp3 = encodeURIComponent(`https://dour-glory-nectarine.glitch.me/yt-mp3?url=${url}`);
     const dlMp4 = encodeURIComponent(`https://dour-glory-nectarine.glitch.me/yt-mp4?url=${url}`);
 
-    res.json({status: true, download : {audio:`https://nueapi.vercel.app/redirect?re=${dlMp3}`, video:`https://nueapi.vercel.app/redirect?re=${dlMp4}`}, info : info.videoDetails})
+    res.json({status: true, download : {audio:`https://nueapi.vercel.app/redirect?re=${dlMp3}`, video:`https://nueapi.vercel.app/redirect?re=${dlMp4}`}, info : info})
   } catch (error) {
    res.status(500).json({ status: false, message: error.message });
   }
