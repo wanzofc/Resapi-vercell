@@ -194,7 +194,6 @@ router.get('/play', async (req, res) => {
     const topVideo = filteredVideos.length > 0 ? filteredVideos[0] : null;
 
     const hasil = topVideo ? topVideo.link : null;
-
     if (hasil) {
       const result = await axios.get(`https://nue-api.vercel.app/api/ytdl?url=${hasil}`);
       res.json(result.data);
@@ -213,7 +212,7 @@ router.get('/play', async (req, res) => {
 });
 router.get('/ytdl', async (req, res) => {
   const url = req.query.url;
-  if (!url) return res.json({ status: false, download:{}, info:{} });
+  if (!url) return res.status(400).json({ error: "Masukkan url" });
   try {
     const info = await ytdl.getInfo(url);
 
@@ -222,7 +221,7 @@ router.get('/ytdl', async (req, res) => {
 
     res.json({status: true, download : {audio:`https://nueapi.vercel.app/redirect?re=${dlMp3}`, video:`https://nueapi.vercel.app/redirect?re=${dlMp4}`}, info : info.videoDetails})
   } catch (error) {
-    res.json({status: false, download:{}, info:{}})
+   res.status(500).json({ status: false, message: error.message });
   }
 });
 
