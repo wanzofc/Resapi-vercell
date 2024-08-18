@@ -142,11 +142,12 @@ router.get("/upscale", async (req, res) => {
   redirectWithKey(req, res, `/upscale?url=${url}`);
 });
 
+
 router.get("/anime-jadwal", async (req, res) => {
   try {
     const [jadwalApi, jadwalApi2] = await Promise.all([
-      axios.get('https://nya-otakudesu.vercel.app/api/v1/ongoing/1'),
-      axios.get('https://nya-otakudesu.vercel.app/api/v1/ongoing/2')
+      axios.get('api-otakudesu-livid.vercel.app/api/v1/ongoing/1'),
+      axios.get('api-otakudesu-livid.vercel.app/2')
     ]);
     const hasilJson = { jadwal1: jadwalApi.data.ongoing, jadwal2: jadwalApi2.data.ongoing };
 
