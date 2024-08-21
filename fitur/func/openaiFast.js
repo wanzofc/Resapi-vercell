@@ -79,7 +79,7 @@ const handleChat = async (req, res, systemMessage) => {
             json: { [userId]: [] }
         });
         console.error('Error request:', error);
-        res.status(500).json({ error: 'Internal Server Error' });
+        res.status(200).json({ result: 'Anda baru saja terdaftar silahkan ulangi permintaan' });
     }
 };
 

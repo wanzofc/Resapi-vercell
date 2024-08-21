@@ -147,7 +147,7 @@ router.get("/anime-jadwal", async (req, res) => {
   try {
     const [jadwalApi, jadwalApi2] = await Promise.all([
       axios.get('api-otakudesu-livid.vercel.app/api/v1/ongoing/1'),
-      axios.get('api-otakudesu-livid.vercel.app/2')
+      axios.get('api-otakudesu-livid.vercel.app/api/v1/ongoing/2')
     ]);
     const hasilJson = { jadwal1: jadwalApi.data.ongoing, jadwal2: jadwalApi2.data.ongoing };
 
@@ -218,8 +218,8 @@ router.get('/ytdl', async (req, res) => {
     const response = await axios.get(`https://nue-api.vercel.app/api/yt-search?query=${url}`);
     const info = response.data[0];
 
-    const dlMp3 = encodeURIComponent(`https://dour-glory-nectarine.glitch.me/yt-mp3?url=${url}`);
-    const dlMp4 = encodeURIComponent(`https://dour-glory-nectarine.glitch.me/yt-mp4?url=${url}`);
+    const dlMp3 = encodeURIComponent(`${side[0]}/yt-mp3?url=${url}`);
+    const dlMp4 = encodeURIComponent(`${side[0]}/yt-mp4?url=${url}`);
 
     res.json({status: true, download : {audio:`https://nueapi.vercel.app/redirect?re=${dlMp3}`, video:`https://nueapi.vercel.app/redirect?re=${dlMp4}`}, info : info})
   } catch (error) {
