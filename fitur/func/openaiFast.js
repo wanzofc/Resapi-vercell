@@ -1,8 +1,7 @@
 const Groq = require('groq-sdk');
 const axios = require('axios');
 
-const key = ['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','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','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','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']
-const randomKey = key[Math.floor(Math.random() * key.length)];
+const randomKey = "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"
 const groq = new Groq({ apiKey: randomKey });
 let chatHistory = [];
 
