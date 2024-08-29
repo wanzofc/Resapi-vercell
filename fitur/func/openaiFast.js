@@ -25,7 +25,7 @@ const handleChat = async (req, res, systemMessage) => {
 
             const response = await groq.chat.completions.create({
                 messages: payload.messages,
-                model: "llama-3.1-70b-versatile",
+                model: "llama-3.1-8b-instant",
                 temperature: 1,
                 max_tokens: 500,
                 top_p: 1,
