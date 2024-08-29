@@ -68,7 +68,7 @@ const handleChat = async (req, res, systemMessage) => {
     } catch (error) {
         chatHistories[userId] = [];
         console.error('Error request:', error);
-        res.status(200).json({ result: 'Anda baru saja terdaftar silahkan ulangi permintaan' });
+        res.status(500).json({ error: error.message });
     }
 };
 
