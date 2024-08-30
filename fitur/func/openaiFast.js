@@ -1,9 +1,8 @@
+const axios = require('axios');
 const Groq = require('groq-sdk');
 
 const randomKey = "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";
 const groq = new Groq({ apiKey: randomKey });
-
-let chatHistories = {};
 
 const handleChat = async (req, res, systemMessage) => {
     const userId = req.query.user;
@@ -36,6 +35,11 @@ const handleChat = async (req, res, systemMessage) => {
             const assistantMessage = { role: "assistant", content: response.choices[0].message.content.trim() };
             chatHistories[userId].push({ role: "user", content: prompt }, assistantMessage);
 
+            // Simpan chatHistories ke API
+            await axios.post('http://nue-db.vercel.app/write/' + userId, {
+                json: chatHistories[userId]
+            });
+
             // Batasi panjang history agar tidak terlalu besar
             if (chatHistories[userId].length > 20) {
                 chatHistories[userId] = chatHistories[userId].slice(-20);
@@ -52,9 +56,9 @@ const handleChat = async (req, res, systemMessage) => {
     };
 
     try {
-        if (!chatHistories[userId]) {
-            chatHistories[userId] = [];
-        }
+        // Ambil chatHistories dari API
+        let response = await axios.get('http://nue-db.vercel.app/read/' + userId);
+        chatHistories[userId] = response.data || [];
 
         let success = await sendRequest(20);
         if (!success) success = await sendRequest(15);
@@ -66,6 +70,8 @@ const handleChat = async (req, res, systemMessage) => {
         }
         if (!success) throw new Error('All retries failed');
     } catch (error) {
+        // Hapus chatHistories jika ada kesalahan
+        await axios.get('http://nue-db.vercel.app/delete/' + userId);
         chatHistories[userId] = [];
         console.error('Error request:', error);
         res.status(500).json({ error: error.message });
