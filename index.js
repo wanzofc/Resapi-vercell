@@ -52,8 +52,8 @@ app.get("/redirect", async (req, res) =>{
 });
 app.get("/uptime", async (req, res) => {
   const chatAi = 'https://nue-db.vercel.app';
-  const Scraper = 'https://poised-broad-koi.glitch.me';
- const sideSrv = 'https://nue-api.koyeb.app/'
+  const Scraper = 'https://pakpurpur-nihbos-uploader-sementara-24jam.vercel.app';
+ const sideSrv = 'https://nue-api.koyeb.app'
 
 
   try {
