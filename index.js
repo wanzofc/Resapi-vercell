@@ -51,8 +51,8 @@ app.get("/redirect", async (req, res) =>{
   res.redirect(req.query.re);
 });
 app.get("/uptime", async (req, res) => {
-  const chatAi = 'https://copper-ambiguous-velvet.glitch.me/';
-  const Scraper = 'https://dour-glory-nectarine.glitch.me/';
+  const chatAi = 'https://nue-db.vercel.app';
+  const Scraper = 'https://poised-broad-koi.glitch.me';
  const sideSrv = 'https://nue-api.koyeb.app/'
 
 
