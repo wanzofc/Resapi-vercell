@@ -324,12 +324,12 @@ router.get("/image", async (req, res) => {
 });
 
 router.get("/google", async (req, res) => {
-  if (!req.query.query || !req.query.limit)
+  if (!req.query.query)
     return res
       .status(400)
       .json({ status: 400, message: "masukkan query dan limit" });
   try {
-    const result = await google.get(req.query.query, req.query.limit);
+    const result = await google.get(req.query.query);
     res.json(result);
   } catch (error) {
     res.status(500).json({ error: error.message });
