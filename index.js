@@ -5,6 +5,7 @@ const v1 = require('./fitur/api.js');
 const path = require('path');
 const axios = require('axios');
 const { sistemNue } = require('./fitur/func/nuego.js');
+const {alic} = require('./fitur/func/aliciaSystem.js');
 
 const app = express();
 app.use('/', router);
@@ -24,6 +25,9 @@ app.set('json spaces', 2);
 
 app.get('/sistem', async (req, res) =>{
   sistemNue(req, res);
+});
+app.get('/alicia', async (req, res) =>{
+  alic(req, res);
 });
 
 app.get('/generate', async (req, res) => {

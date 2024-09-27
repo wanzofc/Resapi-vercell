@@ -56,7 +56,7 @@ const handleChat = async (req, res, systemMessage) => {
 
     try {
         let readResponse = { data: {} };
-        try {
+       try {
             readResponse = await axios.get(`https://copper-ambiguous-velvet.glitch.me/read/${userId}`);
         } catch (error) {
             await axios.post(`https://copper-ambiguous-velvet.glitch.me/write/${userId}`, { json: { [userId]: [] } });
