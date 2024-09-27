@@ -9,7 +9,7 @@ const alic = async (req, res) => {
             const messages = [
                 {
                     role: `system`,
-                    content: `Anda adalah AI pendeteksi permintaan pengguna dan anda harus membalas dalam format JSON berikut:\n{\n  "song_search": {\n    "status": true/false,\n    "query": //judul lagu\n  },\n  "image_search": {\n    "status": true/false,\n    "query": //pencarian gambar\n  },\n  "anime_search": {\n    "status": true/false,\n    "query": //judul anime\n  },\n  "chat_ai": {\n    "status": always true,\n    "reply": AI Respon\n  }\n}\nAnda hanya boleh merespons dalam format JSON yang telah ditentukan tanpa penambahan apapun.`
+                    content: `Anda adalah AI pendeteksi permintaan pengguna dan anda harus membalas dalam format JSON berikut:\n{\n  "song_search": {\n    "status": true/false,\n    "query": //judul lagu\n  },\n  "anime_search": {\n    "status": true/false,\n    "query": //judul anime\n  },\n  "character_search": {\n    "status": true/false,\n    "query": //nama karakter\n  },\n  "google_search": {\n    "status": true/false,\n    "query": //pencarian Google\n  },\n  "chat_ai": {\n    "status": always true,\n    "reply": AI Respon\n  }\n}\nAnda hanya boleh merespons dalam format JSON yang telah ditentukan tanpa penambahan apapun.`
                 },
                 {
                     role: `user`,
@@ -20,25 +20,29 @@ const alic = async (req, res) => {
                     content: `{
   "song_search": {
     "status": true,
-    "query": "sia - Chandelier"
-  },
-  "image_search": {
-    "status": false,
-    "query": ""
+    "query": "Sia - Chandelier"
   },
   "anime_search": {
     "status": false,
     "query": ""
   },
+  "character_search": {
+    "status": false,
+    "query": ""
+  },
+  "google_search": {
+    "status": false,
+    "query": ""
+  },
   "chat_ai": {
     "status": true,
-    "reply": "aku tw lagu itu. ini kan?"
+    "reply": "Ini lagunya!"
   }
 }`
                 },
                 {
                     role: `user`,
-                    content: `Punya gambar kucing lucu?`
+                    content: `Siapa karakter terkuat di Jujutsu Kaisen?`
                 },
                 {
                     role: `assistant`,
@@ -47,23 +51,27 @@ const alic = async (req, res) => {
     "status": false,
     "query": ""
   },
-  "image_search": {
-    "status": true,
-    "query": "gambar kucing lucu"
+  "anime_search": {
+    "status": false,
+    "query": ""
   },
-  *anime_search": {
+  "character_search": {
+    "status": true,
+    "query": "Gojo Satoru"
+  },
+  "google_search": {
     "status": false,
     "query": ""
   },
   "chat_ai": {
     "status": true,
-    "reply": "Ini dia, gambar kucing imut buat kamu!☺️"
+    "reply": "Gojo Satoru adalah karakter terkuat di Jujutsu Kaisen!"
   }
 }`
                 },
                 {
                     role: `user`,
-                    content: `Anime sad ending apa ya?`
+                    content: `Anime dengan MC overpower apa ya?`
                 },
                 {
                     role: `assistant`,
@@ -72,17 +80,21 @@ const alic = async (req, res) => {
     "status": false,
     "query": ""
   },
-  "image_search": {
+  "anime_search": {
+    "status": true,
+    "query": "One Punch Man"
+  },
+  "character_search": {
     "status": false,
     "query": ""
   },
-  "anime_search": {
+  "google_search": {
     "status": true,
-    "query": "Akame ga kill"
+    "query": "Anime dengan MC op"
   },
   "chat_ai": {
     "status": true,
-    "reply": "Hmm coba anime ini kamu pasti nangis😭!"
+    "reply": "One Punch Man mungkin bisa jadi pilihan!"
   }
 }`
                 },
@@ -106,17 +118,21 @@ const alic = async (req, res) => {
             res.json(JSON.parse(assistantMessage.content));
             return true;
         } catch (error) {
-            console.error(error)
+            console.error(error);
             return false;
         }
     };
 
-    try {
-        let success = await sendRequest();
-        if (!success) throw new Error('Request failed');
-    } catch (error) {
-        console.error('Error request:', error);
-        res.status(500).json(error.message);
+    for (let attempt = 0; attempt < 3; attempt++) {
+        try {
+            let success = await sendRequest();
+            if (success) break;
+        } catch (error) {
+            console.error('Error attempt:', attempt, error);
+            if (attempt === 2) {
+                res.status(500).json({ error: 'Request failed after 3 attempts' });
+            }
+        }
     }
 };
 
