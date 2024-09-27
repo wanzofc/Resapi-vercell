@@ -13,14 +13,14 @@ const alic = async (req, res) => {
                 },
                 {
                     role: `user`,
-                    content: `cari lagu Chandelier dong`
+                    content: `Putar lagu Gara gara sebotol minuman`
                 },
                 {
                     role: `assistant`,
                     content: `{
   "song_search": {
     "status": true,
-    "query": "Sia - Chandelier"
+    "query": "Gara gara sebotol minuman"
   },
   "anime_search": {
     "status": false,
@@ -36,7 +36,7 @@ const alic = async (req, res) => {
   },
   "chat_ai": {
     "status": true,
-    "reply": "Ini lagunya!"
+    "reply": "🎧 aku akan memutar nya untuk kamu!"
   }
 }`
                 },
