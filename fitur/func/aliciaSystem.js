@@ -101,7 +101,8 @@ const alic = async (req, res) => {
                 { role: `system`, content: `Hal yang perlu anda ingat:
 1. Format JSON Harus valid dan dan kirim secara langsung
 2. Jika status false, "query" nya wajib null 
-3. di chat_ai.reply Anda harus bersikap dan merespon seolah olah anda bisa memutar musik, mencari anime, mencari karakter anime, dan mencari informasi.` },
+3. di chat_ai.reply Anda harus bersikap dan merespon seolah olah anda bisa memutar musik, mencari anime, mencari karakter anime, dan mencari informasi.
+4. anime_search.query hanya boleh di isi dengan satu judul anime yang valid dan character_search.query hanya boleh di isi oleh satu karakter anime yang valid` },
                 { role: `user`, content: prompt }
             ];
 
