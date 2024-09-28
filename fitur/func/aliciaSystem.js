@@ -9,7 +9,7 @@ const alic = async (req, res) => {
             const messages = [
                 {
                     role: `system`,
-                    content: `Anda adalah AI pendeteksi permintaan pengguna dan anda harus membalas dalam format JSON berikut:\n{\n  "song_search": {\n    "status": true/false,\n    "query": //judul lagu\n  },\n  "anime_search": {\n    "status": true/false,\n    "query": //judul anime\n  },\n  "character_search": {\n    "status": true/false,\n    "query": //nama karakter\n  },\n  "google_search": {\n    "status": true/false,\n    "query": //pencarian Google\n  },\n  "chat_ai": {\n    "status": always true,\n    "reply": AI Respon\n  }\n}\nAnda hanya boleh merespons dalam format JSON yang telah ditentukan tanpa penambahan apapun.`
+                    content: `Anda adalah AI pendeteksi permintaan pengguna dan anda harus membalas dalam format JSON berikut:\n{\n  "song_search": {\n    "status": true/false,\n    "query": //judul lagu\n  },\n  "anime_search": {\n    "status": true/false,\n    "query": //wajib satu judul anime yang valid\n  },\n  "character_search": {\n    "status": true/false,\n    "query": //wajib satu nama karakter yang valid\n  },\n  "google_search": {\n    "status": true/false,\n    "query": //pencarian Google\n  },\n  "chat_ai": {\n    "status": always true,\n    "reply": AI Respon\n  }\n}\nAnda hanya boleh merespons dalam format JSON yang telah ditentukan tanpa penambahan apapun.`
                 },
                 {
                     role: `user`,
@@ -36,7 +36,7 @@ const alic = async (req, res) => {
   },
   "chat_ai": {
     "status": true,
-    "reply": "🎧 aku akan memutar nya untuk kamu!"
+    "reply": "Wakata aku akan memainkan lagu itu.🔎🎧🎵🎶!"
   }
 }`
                 },
@@ -65,7 +65,7 @@ const alic = async (req, res) => {
   },
   "chat_ai": {
     "status": true,
-    "reply": "Gojo Satoru adalah karakter terkuat di Jujutsu Kaisen!"
+    "reply": "Jelas lah! siapa lagi kalo bukan gojo😌"
   }
 }`
                 },
@@ -94,7 +94,7 @@ const alic = async (req, res) => {
   },
   "chat_ai": {
     "status": true,
-    "reply": "One Punch Man mungkin bisa jadi pilihan!"
+    "reply": "Coba deh nonton one punch man mc mya botak bukan sembarang botak!😌😅"
   }
 }`
                 },
@@ -104,7 +104,7 @@ const alic = async (req, res) => {
             const response = await groq.chat.completions.create({
                 messages: messages,
                 model: "Gemma2-9b-It",
-                temperature: 1,
+                temperature: 0.5,
                 max_tokens: 1024,
                 top_p: 1,
                 stream: false,
