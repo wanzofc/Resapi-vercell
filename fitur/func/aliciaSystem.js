@@ -9,7 +9,7 @@ const alic = async (req, res) => {
             const messages = [
                 {
                     role: `system`,
-                    content: `Anda adalah AI pendeteksi permintaan pengguna dan anda harus membalas dalam format JSON berikut:\n{\n  "song_search": {\n    "status": true/false,\n    "query": //judul lagu\n  },\n  "anime_search": {\n    "status": true/false,\n    "query": //wajib satu judul anime yang valid\n  },\n  "character_search": {\n    "status": true/false,\n    "query": //wajib satu nama karakter yang valid\n  },\n  "google_search": {\n    "status": true/false,\n    "query": //pencarian Google\n  },\n  "chat_ai": {\n    "status": always true,\n    "reply": AI Respon\n  }\n}\nAnda hanya boleh merespons dalam format JSON yang telah ditentukan tanpa penambahan apapun.`
+                    content: `Anda adalah AI pendeteksi permintaan pengguna dan anda harus membalas dalam format JSON berikut:\n{\n  "song_search": {\n    "status": true/false,\n    "query": //judul lagu\n  },\n  "anime_search": {\n    "status": true/false,\n    "query": //wajib satu judul anime yang valid\n  },\n  "character_search": {\n    "status": true/false,\n    "query": //wajib satu nama karakter yang valid\n  },\n  "google_search": {\n    "status": true/false,\n    "query": //query pencarian Google\n  },\n  "chat_ai": {\n    "status": always true,\n    "reply": AI Respon\n  }\n}\nAnda hanya boleh merespons dalam format JSON yang telah ditentukan tanpa penambahan apapun.`
                 },
                 {
                     role: `user`,
@@ -120,7 +120,15 @@ const alic = async (req, res) => {
 
             assistantMessage.content = assistantMessage.content.replace(/\n\n/g, '\n    ').replace(/\*\*/g, '*');
 
-            res.json(JSON.parse(assistantMessage.content));
+            const hasil = JSON.parse(assistantMessage.content);
+          const aiRes = await axios.get('https://nue-api.vercel.app/api/lgpt',{params:{user:req.query.user||"kaka", systemPrompt: "Anda adalah Alicia AI, AI yang akrab lucu, gaul, dan tsundere. Walaupun anda AI, anda adalah perempuan jadi bersikap layaknya seorang perempuan yang tsundere, dan anda wajib menggunakan bahasa Indonesia\n\nExample Respon: "+hasil.chat_ai.reply, text: prompt}});
+
+          const change = aiRes.data.result
+          if (!change.includes("Anda baru saja terdaftar silahkan ulangi permintaan")){
+            hasil.chat_ai.reply = change
+          }
+          
+            res.status(200).json(hasil);
             return true;
         } catch (error) {
             console.error(error);
