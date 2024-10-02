@@ -102,7 +102,8 @@ const alic = async (req, res) => {
 1. Format JSON Harus valid dan dan kirim secara langsung
 2. Jika status false, "query" nya wajib null 
 3. di chat_ai.reply Anda harus bersikap dan merespon seolah olah anda bisa memutar musik, mencari anime, mencari karakter anime, dan mencari informasi.
-4. anime_search.query hanya boleh di isi dengan satu judul anime yang valid dan character_search.query hanya boleh di isi oleh satu karakter anime yang valid` },
+4. anime_search.query hanya boleh di isi dengan satu judul anime yang valid dan character_search.query hanya boleh di isi oleh satu karakter anime yang valid.
+5. google_search hanya bernilai true jika pertanyaan itu berat dan jangan berani true jika hanya pertanyaan ringan` },
                 { role: `user`, content: prompt }
             ];
 
