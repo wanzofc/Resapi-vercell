@@ -142,48 +142,41 @@ router.get("/upscale", async (req, res) => {
   redirectWithKey(req, res, `/upscale?url=${url}`);
 });
 
-
 router.get("/anime-jadwal", async (req, res) => {
   try {
-    const [jadwalApi, jadwalApi2] = await Promise.all([
-      axios.get('https://api-otakudesu-livid.vercel.app/api/v1/ongoing/1'),
-      axios.get('https://api-otakudesu-livid.vercel.app/api/v1/ongoing/2')
-    ]);
-    const hasilJson = { jadwal1: jadwalApi.data.ongoing, jadwal2: jadwalApi2.data.ongoing };
-
-    const anime = (hari) => {
-      const semuaJadwal = [...hasilJson.jadwal1, ...hasilJson.jadwal2];
-      let daftarAnime = [];
-      let daftarAnimeRandom = [];
-
-      semuaJadwal.forEach((anime) => {
-        if (anime.updated_day.trim().toLowerCase() === hari.toLowerCase()) {
-          daftarAnime.push(anime.title);
-        } else if (anime.updated_day.trim().toLowerCase() === 'random') {
-          daftarAnimeRandom.push(`${anime.title} *Random*`);
-        }
-      });
-
-      if (daftarAnime.length === 0) {
-        return { list: [], template_text: `Tidak ada anime yang update setiap hari ${hari}.` };
-      } else {
-        const daftarAnimeFinal = [...daftarAnime, ...daftarAnimeRandom];
-        const template = daftarAnimeFinal.map((anime, index) => `${index + 1}. ${anime}\n`).join('');
-        return { 
-          list: daftarAnimeFinal, 
-          template_text: `\`Berikut anime yang update setiap hari ${hari.charAt(0).toUpperCase() + hari.slice(1)}:\`\n${template}> © s.id/nueapi`
-        };
-      }
+    const hariMapping = {
+      senin: 'monday',
+      selasa: 'tuesday',
+      rabu: 'wednesday',
+      kamis: 'thursday',
+      jumat: 'friday',
+      sabtu: 'saturday',
+      minggu: 'sunday'
     };
 
-    const hari = req.query.hari.trim().toLowerCase();
-    const hasilJadwal = anime(hari);
+    const hariInput = req.query.hari.trim().toLowerCase();
+    const hari = hariMapping[hariInput];
 
-    res.json(hasilJadwal);
+    if (!hari) {
+      return res.json({ list: [], template_text: `Hari "${hariInput}" tidak valid. Silakan masukkan hari dalam bahasa Indonesia.` });
+    }
+
+    const { data: { data: jadwalApi } } = await axios.get(`https://api.jikan.moe/v4/schedules?filter=${hari}`);
+
+    if (jadwalApi.length === 0) {
+      return res.json({ list: [], template_text: `Tidak ada anime yang update setiap hari ${hariInput}.` });
+    }
+
+    const template = jadwalApi.map((anime, index) => `${index + 1}. ${anime.title}\n`).join('');
+    res.json({
+      list: jadwalApi.map(anime => anime.title),
+      template_text: `\`Berikut anime yang update setiap hari ${hariInput.charAt(0).toUpperCase() + hariInput.slice(1)}:\`\n${template}> © s.id/nueapi`
+    });
   } catch (error) {
     res.json({ list: [], template_text: error.message });
   }
 });
+
 
 router.get('/play', async (req, res) => {
   const q = req.query.query;
