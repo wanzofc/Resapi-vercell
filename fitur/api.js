@@ -9,7 +9,6 @@ const hari = require("./func/other-date.js");
 const ytdl = require("@distube/ytdl-core");
 let bmkg_info = require('gempa-id-info')
 const {handleChat, groq} = require('./func/openaiFast.js');
-const { ttdl } = require('btch-downloader') 
 
 let side = ['https://nue-api.koyeb.app'];
 
