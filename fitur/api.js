@@ -8,7 +8,8 @@ const google = require("./func/search-google.js");
 const hari = require("./func/other-date.js");
 const ytdl = require("@distube/ytdl-core");
 let bmkg_info = require('gempa-id-info')
-const {handleChat, groq} = require('./func/openaiFast.js'); 
+const {handleChat, groq} = require('./func/openaiFast.js');
+const { ttdl } = require('btch-downloader') 
 
 let side = ['https://nue-api.koyeb.app'];
 
@@ -342,9 +343,7 @@ router.get("/tt-dl", async (req, res) => {
     const tiktok_url = req.query.url;
     if (!tiktok_url)
       return res.json({ status: false, message: "masukan parameter url" });
-    const result = await tiktok.Downloader(tiktok_url, {
-      version: "v2", // version: "v1" | "v2" | "v3"
-    });
+    const result = await ttdl(tiktok_url);
     res.status(200).json(result);
   } catch (error) {
     console.error("Error downloading TikTok video:", error.message);
