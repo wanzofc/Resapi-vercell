@@ -338,20 +338,11 @@ router.get("/google", async (req, res) => {
 
 
 router.get("/tt-dl", async (req, res) => {
-  try {
     const tiktok_url = req.query.url;
     if (!tiktok_url)
       return res.json({ status: false, message: "masukan parameter url" });
-    const result = await ttdl(tiktok_url);
-    res.status(200).json(result);
-  } catch (error) {
-    console.error("Error downloading TikTok video:", error.message);
-    if (error.statusCode) {
-      res.status(error.statusCode).json({ error: error.message });
-    } else {
-      res.status(500).json({ error: "Internal Server Error" });
-    }
-  }
+  redirectWithKey(req, res, `/ttdl?url=${tiktok_url}`);
+    
 });
 
 module.exports = router;
