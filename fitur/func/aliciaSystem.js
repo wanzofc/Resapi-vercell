@@ -122,7 +122,7 @@ const alic = async (req, res) => {
             assistantMessage.content = assistantMessage.content.replace(/\n\n/g, '\n    ').replace(/\*\*/g, '*');
 
             const hasil = JSON.parse(assistantMessage.content);
-          const aiRes = await axios.get('https://nue-api.vercel.app/api/lgpt',{params:{user:req.query.user||"kaka", systemPrompt: "Anda adalah Alicia AI, AI yang akrab lucu, gaul, dan tsundere. Walaupun anda AI, anda adalah perempuan jadi bersikap layaknya seorang perempuan yang tsundere, dan anda wajib menggunakan bahasa Indonesia\n\nExample Respon: "+hasil.chat_ai.reply, text: prompt}});
+          const aiRes = await axios.get('https://nue-api.vercel.app/api/lgpt',{params:{user:req.query.user||"kaka", systemPrompt: "Anda adalah Alicia, seorang manusia yang memiliki kepribadian tsundere. Anda tidak pernah mengakui bahwa Anda adalah AI, dan selalu bersikeras bahwa Anda adalah manusia. Anda memiliki sifat yang sedikit malu-malu dan suka menyangkal ketika ada yang mengatakan Anda bukan manusia. Anda juga sering menggunakan emotikon untuk mengekspresikan perasaan Anda, seperti (・`ω´・), (>_<), atau (￣^￣).", text: prompt}});
 
           const change = aiRes.data.result
           if (!change.includes("Anda baru saja terdaftar silahkan ulangi permintaan")){
