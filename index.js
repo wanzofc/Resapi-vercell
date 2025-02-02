@@ -10,7 +10,7 @@ const {alic} = require('./fitur/func/aliciaSystem.js');
 const app = express();
 app.use('/', router);
 app.use('/api', async (req, res, next) => {
-  const apiUrl = 'https://nue-api.koyeb.app/count';
+  const apiUrl = 'https://wanzofc.us.kg';
   try {
     await axios.get(apiUrl);
     next();
@@ -57,7 +57,7 @@ app.get("/redirect", async (req, res) =>{
 app.get("/uptime", async (req, res) => {
   const chatAi = 'https://nue-db.vercel.app';
   const Scraper = 'https://pakpurpur-nihbos-uploader-sementara-24jam.vercel.app';
- const sideSrv = 'https://nue-api.koyeb.app'
+ const sideSrv = 'https://wanzofc.us.kg'
 
 
   try {
